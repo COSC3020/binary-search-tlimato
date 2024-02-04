@@ -1,31 +1,42 @@
+// Note 1
+// The predominant issue we have right now is that if there are multiple occurences we won't get all the indices of the desired value 
+// just one index. to solve this we should implement a method that returns a list of indices if there are multiple occurences?
+
+// Note 2
+// the return of the list is unnecessary. implement switch cases for  novelty?
+
 function binarySearch(list, element) {
-    // Set Bounds for binary search
-    var left = 0; var right = list.length-1;
+    // Initialize start and end pointers for the search range
+    let start = 0; let end = list.length - 1; let result = -1;
 
-    while (left <= right){
-        // find mid point [pivot point]
-        // round down to avoid floating error
-        var mid = Math.floor((left + right)/2);
+    while (start <= end) {
+        // Calculate the pivot and round to avoid issues.
+        let mid = Math.floor((start + end) / 2);
 
-        // Iterate using casees. [just doing something different than the standard if else]
-        switch (true){
-            // element found now return the index.
-            case list[mid] == target:
-                return mid;
-            // element is greater than pivot
-            case list[mid] < target:
-                left = mid +1;
-                break;
-            // other cases don't trigger, element must be smaller than pivot
-            default:
-                right = mid -1;
-                break;
+        // If the middle element = element
+        if (list[mid] === element) {
+            result = mid;
+            // continue searching on the left side, for repeats.
+            end = mid - 1;
+        } 
+        // If the middle element < element
+        else if (list[mid] < element) {
+            // Adjust the start pointer to search right side
+            start = mid + 1;
+        } 
+        // If the middle element is greater than the target element
+        else {
+            // Adjust the end pointer to search left side
+            end = mid - 1;
         }
     }
 
-    return -1;
+    // Return the final result (either the index of the leftmost occurrence or -1 if not found)
+    return result;
 }
+  
 
+  
 
 // Sucessful test case
 // ---------------------------
